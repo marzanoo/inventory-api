@@ -18,7 +18,7 @@ class PenjualanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kasir_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.jumlah' => 'required|integer|min:1',
@@ -29,7 +29,7 @@ class PenjualanController extends Controller
             $total_harga = collect($request->items)->sum(fn($item) => $item['jumlah'] * $item['harga']);
 
             $penjualan = Penjualan::create([
-                'kasir_id' => $request->kasir_id,
+                'user_id' => $request->user_id,
                 'total_harga' => $total_harga
             ]);
 
